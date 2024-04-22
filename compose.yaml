@@ -1,0 +1,10 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: deploy
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./storage:/opt/server/storage
