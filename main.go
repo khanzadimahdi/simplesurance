@@ -10,8 +10,10 @@ import (
 	"os/signal"
 	"ringbuffer/counter"
 	"ringbuffer/handlers"
+	"ringbuffer/middlewares"
 	"sync"
 	"syscall"
+	"time"
 )
 
 const (
@@ -38,7 +40,8 @@ func main() {
 
 func startHttpServer(wg *sync.WaitGroup, counter counter.Counter) *http.Server {
 	mux := http.NewServeMux()
-	mux.Handle("/", handlers.NewCounterHandler(counter))
+
+	mux.Handle("/", middlewares.NewRateLimiter(5, handlers.NewCounterHandler(counter, 2*time.Second)))
 
 	server := &http.Server{Addr: fmt.Sprintf("0.0.0.0:%d", httpServerPort), Handler: mux}
 	wg.Add(1)

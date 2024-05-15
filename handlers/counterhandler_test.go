@@ -10,7 +10,7 @@ import (
 
 func TestCounterHandler(t *testing.T) {
 	counter := NewCounterMock()
-	handler := NewCounterHandler(counter)
+	handler := NewCounterHandler(counter, 0)
 
 	request, err := http.NewRequest(http.MethodGet, "/", nil)
 	if err != nil {

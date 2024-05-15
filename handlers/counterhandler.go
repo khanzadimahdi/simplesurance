@@ -8,18 +8,22 @@ import (
 )
 
 type counterHandler struct {
-	counter counter.Counter
+	counter     counter.Counter
+	timeToSleep time.Duration
 }
 
 var _ http.Handler = &counterHandler{}
 
-func NewCounterHandler(counter counter.Counter) *counterHandler {
+func NewCounterHandler(counter counter.Counter, timeToSleep time.Duration) *counterHandler {
 	return &counterHandler{
-		counter: counter,
+		counter:     counter,
+		timeToSleep: timeToSleep,
 	}
 }
 
 func (c *counterHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+	time.Sleep(c.timeToSleep)
+
 	c.counter.Inc(time.Now())
 
 	w.WriteHeader(http.StatusOK)

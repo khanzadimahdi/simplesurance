@@ -7,6 +7,13 @@ import (
 	"time"
 )
 
+// ring buffer 
+
+// count number of requests per each second in last 60s
+// ring - - - - - - - - - - - -
+// 60 index --> 
+// 60 values
+
 // Counter interface
 type Counter interface {
 	TTL() int
